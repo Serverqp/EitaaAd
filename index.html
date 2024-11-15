@@ -145,6 +145,33 @@
         }
 
     </style>
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
+
+<script>
+// پیکربندی Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyD-KpPqiJPEim3K3JbV1mvaaT8DORvDmw0",
+  authDomain: "ad-eitaa-aed5f.firebaseapp.com",
+  projectId: "ad-eitaa-aed5f",
+  storageBucket: "ad-eitaa-aed5f.firebasestorage.app",
+  messagingSenderId: "745013912418",
+  appId: "1:745013912418:web:4986721356eb30d5c2023b",
+  measurementId: "G-1XRNJ91MBC"
+};
+
+// راه‌اندازی Firebase
+const app = firebase.initializeApp(firebaseConfig);
+
+// راه‌اندازی Firestore
+const db = firebase.firestore();
+
+// راه‌اندازی Analytics (اختیاری)
+const analytics = firebase.analytics(app);
+</script>
+
 </head>
 <body>
 
