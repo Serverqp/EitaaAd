@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جلسات هفتگی</title>
+    <style>
+        /* تنظیمات عمومی */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            background: linear-gradient(to right, #ff9ff3, #feca57, #48dbfb);
+        }
+
+        /* هدر با دکمه حضور غیاب */
+        .header {
+            width: 140%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            text-align: center;
+            padding: 10px;
+            z-index: 10;
+        }
+
+        .attendance-btn {
+            background: linear-gradient(45deg, #1e272e, #3d3d3d);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .attendance-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, #2f3542, #576574);
+        }
+
+        /* لیست جلسات */
+        .sidebar {
+            width: 30%;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 25px;
+            overflow-y: auto;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        .date-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .date-list li {
+            cursor: pointer;
+            margin-bottom: 12px;
+            padding: 12px;
+            background-color: #74b9ff;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 9px 13px rgba(0, 0, 0, 0.2);
+        }
+
+        .date-list li:hover {
+            background-color: #55efc4;
+            transform: scale(1.05);
+        }
+
+        /* محتوای جلسه */
+        .content {
+            flex: 1;
+            padding: 80px 40px 20px 40px;
+        }
+
+        .session-content {
+            display: none;
+        }
+
+        .session-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .images img {
+            width: 60%;
+            margin: 2px;
+            border-radius: 3px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* پنجره (Modal) برای نمایش لیست حضور غیاب */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- هدر با دکمه حضور غیاب -->
+    <div class="header">
+        <button class="attendance-btn" onclick="showModal()">لیست حضور غیاب</button>
+    </div>
+    <!-- لیست جلسات در سمت چپ -->
+    <div class="sidebar">
+        <h2>جلسات</h2>
+        <ul class="date-list">
+            <li onclick="showContent('session1')">1403/07/26 اردو</li>
+            <li onclick="showContent('session2')">1403/08/03</li>
+            <li onclick="showContent('session3')">1403/08/10</li>
+        </ul>
+    </div>
+
+    <!-- محتوای جلسه -->
+    <div class="content">
+        <div id="session1" class="session-content active">
+            <h3>اردو تاریخ 1403/07/27</h3>
+            <p> اردو از ساعت 8 شب پنجشنبه تا ساعت 9 صبح جمعه در باغ برگذار شد به همراه تفریحات: استخر حدود 3 ساعت و کنسول بازی حدود 5 ساعت</p>
+            <div class="images">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14301851990.jpg" alt="عکس 1">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14297529102.jpg" alt="عکس 2">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14301851884.jpg" alt="عکس 3">
+            </div>
+        </div>
+
+        <div id="session2" class="session-content">
+            <h3>جلسه 1403/08/03</h3>
+            <p>این جلسه منزل مانی صالحی برگزار شد و نمایش نامه نوشته شوم اجرا شد.</p>
+            <div class="images">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14462935807.jpg" alt="عکس 1">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14462935371.jpg" alt="عکس 2">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14462936051.jpg" alt="عکس 3">
+            </div>
+        </div>
+
+        <div id="session3" class="session-content">
+            <h3>جلسه 3 - 1403/08/10</h3>
+            <p>این جلسه منزل امیرحسام درودی برگزار شد و نمایش نامه رادیویی در آن انجام شد این آخرین حضور امیرحسین کظیمی در جلسات بود😢</p>
+            <div class="images">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14629466122.jpg" alt="عکس 1">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/photo14629465960.jpg" alt="عکس 2">
+                <img src="https://raw.githubusercontent.com/Serverqp/test_use/main/Screenshot%20(510).png" alt="عکس 3">
+            </div>
+        </div>
+    </div>
+
+    <!-- پنجره (Modal) -->
+    <div class="modal" id="attendanceModal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">×</button>
+            <img src="https://raw.githubusercontent.com/JavadCamback/JALASE/main/photo14176184276.jpg" alt="لیست حضور غیاب">
+        </div>
+    </div>
+
+    <script>
+        function showModal() {
+            document.getElementById('attendanceModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('attendanceModal').style.display = 'none';
+        }
+
+        function showContent(sessionId) {
+            var contents = document.getElementsByClassName('session-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            document.getElementById(sessionId).classList.add('active');
+        }
+    </script>
+
+</body>
+</html>
