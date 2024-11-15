@@ -149,6 +149,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-storage.js"></script>
 
 <script>
 // پیکربندی Firebase
@@ -165,10 +166,9 @@ const firebaseConfig = {
 // راه‌اندازی Firebase
 const app = firebase.initializeApp(firebaseConfig);
 
-// راه‌اندازی Firestore
+// راه‌اندازی Firestore و Firebase Storage
 const db = firebase.firestore();
-
-// راه‌اندازی Analytics (اختیاری)
+const storage = firebase.storage();
 const analytics = firebase.analytics(app);
 </script>
 
@@ -284,7 +284,37 @@ const analytics = firebase.analytics(app);
                 // لینک و آیتم‌های اضافه‌شده را ذخیره کنیم
                 addedLinks.push(link);
                 addedItems++;
-                alert('کانال/گروه شما با موفقیت قرار گرفت و بعد از 72 ساعت پاک خواهد شد.');
+
+                // آپلود تصویر به Firebase Storage
+                const storageRef = storage.ref('images/' + file.name);
+                const uploadTask = storageRef.put(file);
+
+                uploadTask.on('state_changed', 
+                    (snapshot) => {
+                        // در اینجا می‌توانید پروسه آپلود را پیگیری کنید
+                    }, 
+                    (error) => {
+                        alert('خطا در آپلود تصویر');
+                    }, 
+                    () => {
+                        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                            // ذخیره داده‌ها در Firestore
+                            db.collection('items').add({
+                                name: name,
+                                link: link,
+                                bio: bio,
+                                imageUrl: downloadURL,
+                                type: selectedType
+                            })
+                            .then(() => {
+                                alert('کانال/گروه شما با موفقیت قرار گرفت و بعد از 72 ساعت پاک خواهد شد.');
+                            })
+                            .catch((error) => {
+                                console.error("خطا در ذخیره داده‌ها: ", error);
+                            });
+                        });
+                    }
+                );
 
                 // پاک کردن کانال یا گروه بعد از ۷۲ ساعت
                 setTimeout(() => {
